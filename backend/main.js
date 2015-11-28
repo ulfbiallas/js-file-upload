@@ -3,6 +3,7 @@ var fs = require('fs');
 
 var server = restify.createServer()
 server.use(restify.bodyParser());
+server.pre(restify.CORS());
 
 
 server.post('/', function(req, res, next) {
