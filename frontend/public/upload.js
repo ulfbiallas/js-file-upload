@@ -1,4 +1,3 @@
-
 var filelist = [];
 var isOverDropZone = false;
 
@@ -30,7 +29,24 @@ $('#uploadzone').on('dragleave', function(event) {
 $('#uploadzone').on('drop', function(event) {
     $(this).removeClass('dragging');
     for (var i=0; i<event.originalEvent.dataTransfer.files.length; i++) {
-        filelist.push(event.originalEvent.dataTransfer.files[i].name);
+        uploadFile(event.originalEvent.dataTransfer.files[i]);
     }
-    $('#filelist').html(filelist.join('<br>'))
 });
+
+
+
+function uploadFile(file) {
+    var data = new FormData();
+    data.append('data', file);
+
+    $.ajax({
+        url: 'http://localhost:8080',
+        type: 'POST',
+        data: data,
+        processData: false,
+        contentType: false
+    }).done(function() {
+        filelist.push(file.name);
+        $('#filelist').html(filelist.join('<br>'))
+    });
+}
